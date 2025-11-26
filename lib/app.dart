@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import 'package:movie_matrix/providers/theme_provider.dart';
 import 'package:movie_matrix/views/home/home_screen.dart';
+import 'package:movie_matrix/views/main_screen.dart';
 import 'package:movie_matrix/views/splash/splash_screen.dart';
+
+import 'controllers/theme_controller.dart';
 
 class MyApp extends ConsumerWidget{
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = ref.watch(appThemeProvider);
+    final theme = Get.put(ThemeController()).themeData;
     return GetMaterialApp(
       title: 'Movie Matrix',
       theme: theme,
-      home: HomeScreen(),
+      home: MainScreen(),
     );
   }
   

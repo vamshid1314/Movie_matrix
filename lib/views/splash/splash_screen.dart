@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:movie_matrix/core/themes/app_colors.dart';
 import 'package:movie_matrix/core/themes/app_spacing.dart';
-import 'package:movie_matrix/providers/theme_provider.dart';
+
+import '../../controllers/theme_controller.dart';
 
 class SplashScreen extends ConsumerWidget {
   const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = ref.watch(appThemeProvider);
+    final theme = Get.put(ThemeController()).themeData;
     return Scaffold(
         body: SafeArea(
       child: Center(
