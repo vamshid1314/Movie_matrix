@@ -22,16 +22,19 @@ class HomeScreen extends ConsumerWidget {
           children: [
             MovieCard(
                 theme: theme,
+                itemCount: 11,
                 sectionHeader: "Trending",
             ),
             SizedBox(height: AppSpacing.lg),
             MovieCard(
                 theme: theme,
+                itemCount: 11,
                 sectionHeader: "Top Rated"
             ),
             SizedBox(height: AppSpacing.lg),
             MovieCard(
                 theme: theme,
+                itemCount: 11,
                 sectionHeader: "For You"
             ),
             SizedBox(height: AppSpacing.lg),

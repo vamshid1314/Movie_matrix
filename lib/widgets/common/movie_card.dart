@@ -3,16 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:movie_matrix/views/home/all_movies_screen.dart';
+import 'package:movie_matrix/widgets/common/build_movie_card.dart';
 import '../../../core/themes/app_colors.dart';
 import '../../../core/themes/app_spacing.dart';
 
 class MovieCard extends StatelessWidget {
   final ThemeData theme;
   final String sectionHeader;
+  final int itemCount;
 
   const MovieCard({
     super.key,
     required this.theme,
+    required this.itemCount,
     required this.sectionHeader,
   });
 
@@ -35,7 +38,9 @@ class MovieCard extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Get.to(AllMoviesScreen());
+                  Get.to(AllMoviesScreen(
+                    sectionHeader: sectionHeader,
+                  ));
                 },
                 child: Text(
                   "see all",
@@ -53,20 +58,18 @@ class MovieCard extends StatelessWidget {
             height: 220,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: 11, // 10 cards + 1 arrow icon at the end
+              itemCount: itemCount,
               itemBuilder: (context, index) {
                 if (index < 10) {
                   final movieData = {
-                    'imgUrl':
-                    'https://via.placeholder.com/150x220.png?text=Movie+${index +
-                        1}',
+                    'imgUrl': "https://picsum.photos/200/300",
                     'title': 'Movie ${index + 1}',
                     'rating': (5.0 + index % 5).toDouble(),
                   };
 
                   return Padding(
                     padding: const EdgeInsets.only(right: 12.0),
-                    child: _buildMovieCard(
+                    child: BuildMovieCard(
                       theme: theme,
                       imgUrl: movieData['imgUrl'] as String,
                       title: movieData['title'] as String,
@@ -78,7 +81,9 @@ class MovieCard extends StatelessWidget {
                 // --- Final Arrow Button ---
                 return GestureDetector(
                   onTap: () {
-                    Get.to(AllMoviesScreen());
+                    Get.to(AllMoviesScreen(
+                      sectionHeader: sectionHeader,
+                    ));
                   },
                   child: Container(
                     width: 40,
@@ -98,84 +103,6 @@ class MovieCard extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildMovieCard(
-      {ThemeData? theme, String? imgUrl, String? title, double? rating}) {
-    return SizedBox(
-      width: 115, // Fixed width for consistent sizing
-      child: Card(
-        elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // Movie Poster Image
-              ClipRRect(
-                borderRadius: BorderRadius.circular(8),
-                child: CachedNetworkImage(
-                  imageUrl: imgUrl!,
-                  width: double.infinity,
-                  height: 120,
-                  // Reduced height to fit content
-                  fit: BoxFit.cover,
-                  placeholder: (context, url) =>
-                      Container(
-                        width: double.infinity,
-                        height: 120,
-                        color: Colors.grey[300],
-                        child: const Center(
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        ),
-                      ),
-                  errorWidget: (context, url, error) =>
-                      Container(
-                        width: double.infinity,
-                        height: 120,
-                        color: Colors.grey[300],
-                        child: const Icon(Icons.error, color: Colors.grey),
-                      ),
-                ),
-              ),
-
-              SizedBox(height: AppSpacing.md),
-
-              Text(
-                title ?? "No Title",
-                style: theme?.textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-
-              const SizedBox(height: AppSpacing.sm),
-
-              // Rating Row
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.star,
-                    color: Colors.amber,
-                    size: 16,
-                  ),
-                  const SizedBox(width: 4),
-                  Text(
-                    rating.toString(),
-                    style: theme?.textTheme.bodySmall?.copyWith(
-                      color: Colors.grey[700],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
